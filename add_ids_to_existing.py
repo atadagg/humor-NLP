@@ -1,18 +1,21 @@
 import pandas as pd
 
 # Read the existing CSV
-df = pd.read_csv('zaytung_haberler.csv')
+print("Reading existing CSV file...")
+df = pd.read_csv('zaytung_full_content.csv')
 
-# Create IDs for each row
+# Create IDs
+print("Adding IDs to articles...")
 df['ID'] = [f"ZT{i+1:04d}" for i in range(len(df))]
 
 # Reorder columns to put ID first
-df = df[['ID', 'Title', 'Link', 'Page']]
+columns = ['ID'] + [col for col in df.columns if col != 'ID']
+df = df[columns]
 
 # Save back to CSV
-df.to_csv('zaytung_haberler_with_ids.csv', index=False, encoding='utf-8-sig')
+print("Saving updated CSV...")
+df.to_csv('zaytung_full_content.csv', index=False, encoding='utf-8-sig')
 
-print(f"✅ Successfully added IDs to {len(df)} articles")
-print(f"✅ Saved to zaytung_haberler_with_ids.csv")
-print("\nFirst few rows:")
+print(f"✅ Successfully added IDs to {len(df)} articles in zaytung_full_content.csv")
+print("First few rows of the updated CSV:")
 print(df.head()) 
