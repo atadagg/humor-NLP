@@ -19,6 +19,7 @@ driver = webdriver.Chrome(options=options)
 wait = WebDriverWait(driver, 10)
 
 # Lists to store the content
+ids = []
 titles = []
 contents = []
 links = []
@@ -27,7 +28,8 @@ links = []
 for index, row in df.iterrows():
     try:
         url = row['Link']
-        print(f"Processing article {index + 1}/{len(df)}: {url}")
+        article_id = f"ZT{index+1:04d}"  # Creates IDs like ZT0001, ZT0002, etc.
+        print(f"Processing article {article_id}: {url}")
         
         # Visit the page
         driver.get(url)
@@ -42,11 +44,12 @@ for index, row in df.iterrows():
         content = "\n\n".join([p.text.strip() for p in paragraphs if p.text.strip()])
         
         # Store the data
+        ids.append(article_id)
         titles.append(title)
         contents.append(content)
         links.append(url)
         
-        print(f"✅ Successfully extracted content from article {index + 1}")
+        print(f"✅ Successfully extracted content from article {article_id}")
         
     except Exception as e:
         print(f"❌ Error processing article {index + 1}: {str(e)}")
@@ -54,6 +57,7 @@ for index, row in df.iterrows():
 
 # Create new DataFrame with full content
 content_df = pd.DataFrame({
+    'ID': ids,
     'Title': titles,
     'Content': contents,
     'Link': links
