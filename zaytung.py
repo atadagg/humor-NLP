@@ -31,7 +31,7 @@ except:
 
 
 # **Kaç sayfa çekileceğini ayarla (İlk 20 sayfa)**
-num_pages = min(100, max_page)  # En fazla 20 sayfa çek, ancak toplam sayfadan azsa onu kullan
+num_pages = max_page  # En fazla 20 sayfa çek, ancak toplam sayfadan azsa onu kullan
 
 news_data = []
 
@@ -74,7 +74,7 @@ df.reset_index(drop=True, inplace=True)
 print("Tekrarlar temizlendikten sonraki satır sayısı:", len(df))
 
 # DataFrame'i CSV dosyasına aktar
-csv_filename = 'zaytung_haberler.csv'
+csv_filename = 'zaytung_haberler_retry.csv'
 df.to_csv(csv_filename, index=False, encoding='utf-8-sig') # utf-8-sig encoding Türkçe karakterler için önemli
 print(f"✅ Haberler başarıyla '{csv_filename}' dosyasına kaydedildi.")
 
